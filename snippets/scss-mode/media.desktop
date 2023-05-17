@@ -1,0 +1,7 @@
+# -*- mode: snippet -*-
+# name: Large Device Only (laptop,desktop)
+# key: mediadesktop
+# --
+@media (min-width: 992px) and (max-width: 1199.98px){
+  $0
+}

@@ -1,0 +1,7 @@
+# -*- mode: snippet -*-
+# name: extra large device(desktops, 1200 and up)
+# key: medialarge
+# --
+@media (min-width: 1200px){
+  $0
+}

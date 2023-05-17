@@ -1,0 +1,7 @@
+# -*- mode: snippet -*-
+# name: Small Devices Only(landscape phones, between 576px and 767px)
+# key: mediaphone
+# --
+@media (min-width: 567px) and (max-width: 767px){
+  $0
+}

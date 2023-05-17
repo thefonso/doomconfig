@@ -1,0 +1,7 @@
+# -*- mode: snippet -*-
+# name: Medium Devices Only(laptops, desktops 768px and 991px)
+# key: mediatablet
+# --
+@media (min-width: 768px) and (max-width: 992px){
+  $0
+}

@@ -1,0 +1,7 @@
+# -*- mode: snippet -*-
+# name: React Ternary
+# uuid:
+# key: reactternary
+# condition: t
+# --
+{true ?(<></>):(<></>)}
