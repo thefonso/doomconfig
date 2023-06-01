@@ -107,12 +107,18 @@
 (package-initialize)
 ;
 ;;EMMET
-(add-to-list 'load-path "~/.emacs.d/emmet-mode");;it's here but also loaded via MELPA so not sure if this line is needed
-(require 'emmet-mode)
+(use-package emmet-mode
+:ensure t
+:config
 (add-hook 'sgml-mode-hook 'emmet-mode) ;; Auto-start on any markup modes
+(add-hook 'web-mode-hook 'emmet-mode) ;; Auto-start on any markup modes
 (add-hook 'css-mode-hook  'emmet-mode) ;; enable Emmet's css abbreviation.
+)
 ;;get emmet in React JSX files
 (add-to-list 'emmet-jsx-major-modes 'rjsx-mode)
+
+
+
 ;;TABNINE
 ;;(use-package company-tabnine :ensure t)
 ;;TABNINE AI auto completion
