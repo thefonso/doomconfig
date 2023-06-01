@@ -106,6 +106,13 @@
 ;; they are implemented.
 (package-initialize)
 ;
+;;EMMET
+(add-to-list 'load-path "~/.emacs.d/emmet-mode");;it's here but also loaded via MELPA so not sure if this line is needed
+(require 'emmet-mode)
+(add-hook 'sgml-mode-hook 'emmet-mode) ;; Auto-start on any markup modes
+(add-hook 'css-mode-hook  'emmet-mode) ;; enable Emmet's css abbreviation.
+;;get emmet in React JSX files
+(add-to-list 'emmet-jsx-major-modes 'rjsx-mode)
 ;;TABNINE
 ;;(use-package company-tabnine :ensure t)
 ;;TABNINE AI auto completion
@@ -214,22 +221,25 @@
 ;;SEE LINE 68 - you may not need this
 ;;(require 'react-snippets')
 
-;;this makes the window wide on focus like I have on vim
+;;GOLDEN RATIO - this makes the window wide on focus like I have on vim
+;;NOTE how to speedup switching???
 (require 'golden-ratio)
 (golden-ratio-mode 1)
 
 
-;;M-x markdown-live-preview-mode make vertical split side-by-side
-(defun +markdown-live-preview-window-xwidget-webkit (file)
-  "Preview FILE with xwidget-webkit.
-To be used with `markdown-live-preview-window-function'."
-  (let ((uri (format "file://%s" file)))
-      (xwidget-webkit-browse-url uri)
-      xwidget-webkit-last-session-buffer))
-(set-popup-rule! "^\\*xwidget" :side 'right :size .50 :ttl 0 :quit nil)
-(setq markdown-live-preview-window-function
-      'markdown-live-preview-window-xwidget-webkit)
+;;MARKDOWN - live preview
+;;https://github.com/jrblevin/markdown-mode
+;;NOTE run this command from keybord...
+;;
+;;C-c C-c l
+;;
+;;...this keyboard sequence will display the preview inside emacs
+;;;; Set the split window direction for Markdown-mode
+(setq markdown-split-window-direction 'right)
 
+
+
+;;INDIUM
 ;;trying to get breakpoint functionality set up
 (use-package indium :hook ((js2-mode . indium-interaction-mode)))
 ;;need this so node is in emacs for indium debug engine
@@ -239,7 +249,7 @@ To be used with `markdown-live-preview-window-function'."
 ;; alias chrome="flatpak run org.chromium.Chromium"
 (setq indium-chrome-executable "chromium")
 
-;;evil-multiedit set up
+;;MULTIEDIT evil-multiedit set up
 ;;(evil-multiedit-default-keybinds)
 (require 'evil-mc)
 ;;experimental: increase border width so breakpoints can be seen better
@@ -252,10 +262,11 @@ To be used with `markdown-live-preview-window-function'."
 
 ;; NOTE for html intellisense: M-x lsp-install-server RET html-ls RET
 
-;;set fringes to 10 left 5 right so breakpoints are seen
+;;FRINGES set fringes to 10 left 5 right so breakpoints are seen
 ;;(fringe-mode '(10 . 5))
 ;;Set fringes to default
 (fringe-mode nil)
+
 
 ;;run html page from emacs just type M-x livepreview
 (defun livepreview ()

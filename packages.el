@@ -17,11 +17,15 @@
 (package! prettier-js)
 (package! skewer-mode)
 (package! js-react-redux-yasnippets)
+(package! emmet-mode)
 (package! helm-lsp)
 (package! helm-xref)
 (package! lsp-volar :recipe (:host github :repo "jadestrong/lsp-volar"))
 (package! company);;IS THIS CORRECT?
 (package! company-tabnine :recipe (:host github :repo "TommyX12/company-tabnine"))
+(package! impatient-mode)
+(package! markdown-preview-mode)
+(package! web-server)
 ;;(package! company-tabnine);;USE-PACKAGE in config.el instead of here???
 ;; To install a package directly from a remote git repo, you must specify a
 ;; `:recipe'. You'll find documentation on what `:recipe' accepts here:
