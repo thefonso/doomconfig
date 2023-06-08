@@ -109,6 +109,12 @@
 (require 'package)
 (add-to-list 'package-archives '("gnu"   . "https://elpa.gnu.org/packages/"))
 (add-to-list 'package-archives '("melpa" . "https://melpa.org/packages/"))
+
+;; Associate .jsx files with web-mode
+(add-to-list 'auto-mode-alist '("\\.jsx\\'" . web-mode))
+(setq web-mode-content-types-alist '(("jsx" . "\\.js[x]?\\'")))
+
+
 (package-initialize)
 
 (unless (package-installed-p 'use-package)
@@ -133,7 +139,11 @@
   (add-hook 'web-mode-hook 'emmet-mode) ;; Auto-start on any markup modes
   (add-hook 'css-mode-hook  'emmet-mode) ;; Auto start on css file.
 )
+;;NOTE CHATGPT- force rjsx to web-mode
+(after! rjsx-mode
+  (setq auto-mode-alist (rassq-delete-all 'rjsx-mode auto-mode-alist)))
 
+;;(add-to-list 'auto-mode-alist '("\\.jsx\\'" . web-mode))
 
 
 ;;TABNINE
