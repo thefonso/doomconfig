@@ -119,8 +119,7 @@
         use-package-expand-minimally t))
 
 ;;EMMET
-;;(add-to-list 'load-path "~/.emacs.d/emmet-mode")
-;;(require 'emmet-mode)
+;;NOTE https://gist.github.com/thefonso/814a2fc041b1ae30c7618a989cf79abf
 ;;NOTE auto enable for .js/.jsx files
 ;;(add-to-list 'auto-mode-alist '("\\.jsx?$" . web-mode)) ;; auto-enable for .js/.jsx files
 ;;NOTE enable JSX syntax higlighting...
