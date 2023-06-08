@@ -104,62 +104,75 @@
 ;;
 ;; You can also try 'gd' (or 'C-c c d') to jump to their definition and see how
 ;; they are implemented.
+
+;;USE-PACKAGE setup
+(require 'package)
+(add-to-list 'package-archives '("gnu"   . "https://elpa.gnu.org/packages/"))
+(add-to-list 'package-archives '("melpa" . "https://melpa.org/packages/"))
 (package-initialize)
-;
+
+(unless (package-installed-p 'use-package)
+  (package-refresh-contents)
+  (package-install 'use-package))
+(eval-and-compile
+  (setq use-package-always-ensure t
+        use-package-expand-minimally t))
+
 ;;EMMET
-(use-package emmet-mode
-:ensure t
-:config
-(add-hook 'sgml-mode-hook 'emmet-mode) ;; Auto-start on any markup modes
-(add-hook 'web-mode-hook 'emmet-mode) ;; Auto-start on any markup modes
-(add-hook 'css-mode-hook  'emmet-mode) ;; enable Emmet's css abbreviation.
-)
+;;(add-to-list 'load-path "~/.emacs.d/emmet-mode")
+;;(require 'emmet-mode)
+;;NOTE auto enable for .js/.jsx files
+;;(add-to-list 'auto-mode-alist '("\\.jsx?$" . web-mode)) ;; auto-enable for .js/.jsx files
+;;NOTE enable JSX syntax higlighting...
+;;(setq web-mode-content-types-alist '(("jsx" . "\\.js[x]?\\'")))
 ;;get emmet in React JSX files
-(add-to-list 'emmet-jsx-major-modes 'rjsx-mode)
+;;(add-to-list 'emmet-jsx-major-modes 'rjsx-mode)
+;;next line auto installes emmet
+(use-package emmet-mode
+  :config ;; turn emmet on automatically??
+  (add-hook 'sgml-mode-hook 'emmet-mode) ;; Auto-start on any markup modes
+  (add-hook 'web-mode-hook 'emmet-mode) ;; Auto-start on any markup modes
+  (add-hook 'css-mode-hook  'emmet-mode) ;; Auto start on css file.
+)
 
 
 
 ;;TABNINE
 ;;(use-package company-tabnine :ensure t)
 ;;TABNINE AI auto completion
-(require 'company);;DO I NEED THIS HERE?
+;;(require 'company)
 ;;get company-mode in all buffers
-(add-hook 'after-init-hook 'global-company-mode)
+;;(add-hook 'after-init-hook 'global-company-mode)
 ;;then the tabnine plugin
 ;;(require 'company-tabnine)
 ;;(add-to-list 'company-backends 'company-tabnine)
 
-(after! company
-  (setq +lsp-company-backends '(company-tabnine :separate company-capf company-yasnippet))
-  (setq company-show-numbers t)
-  (setq company-idle-delay 0)
-)
+;;(after! company
+;;  (setq +lsp-company-backends '(company-tabnine :separate company-capf company-yasnippet))
+;;  (setq company-show-numbers t)
+;;  (setq company-idle-delay 0)
+;;)
 
 ;; Trigger completion immediately.
-(setq company-idle-delay 0)
+;;(setq company-idle-delay 0)
 
 ;; Number the candidates (use M-1, M-2 etc to select completions).
-(setq company-show-quick-access t)
+;;(setq company-show-quick-access t)
 ;;TABNINE ENDS
 
 ;; grab the .env file reader
-(use-package dotenv-mode
-  :ensure t)
+(use-package dotenv-mode)
 
 
-;; those react snippets like rcc
-(use-package! js-react-redux-yasnippets
-   :after yasnippet ;; will not work if not adding this line
-   ;;:after rjsx
-   ;;:config
-   )
 
 ;; web-mode supports vue since 2019
 (add-to-list 'auto-mode-alist '("\\.vue\\'". web-mode))
 ;; get .env file to render correctly
 (add-to-list 'auto-mode-alist '("\\.env'". dotenv-mode))
+;;NOTE WHAT IS THIS FOR / FROM?
 (add-to-list 'package-archives '("melpa" . "http://melpa.org/packages/") t)
-(setq package-selected-packages '(lsp-mode yasnippet lsp-treemacs helm-lsp projectile hydra flycheck company avy which-key helm-xref dap-mode zenburn-theme json-mode))
+;; do I need yassnippetts after lsp-mode here?
+(setq package-selected-packages '(lsp-mode lsp-treemacs helm-lsp projectile hydra flycheck company avy which-key helm-xref dap-mode zenburn-theme json-mode))
 (when (cl-find-if-not #'package-installed-p package-selected-packages)
   (package-refresh-contents)
   (mapc #'package-install package-selected-packages))
@@ -183,7 +196,6 @@
 (use-package! lsp-volar)
 
 (use-package counsel-etags
-  :ensure t
   :bind (("C-]" . counsel-etags-find-tag-at-point))
   :init
   (add-hook 'prog-mode-hook
@@ -215,10 +227,9 @@
       company-minimum-prefix-length 1
       create-lockfiles nil) ;; lock files will kill `npm start'
 ;;
-(with-eval-after-load 'lsp-mode ;;what does this block do?
-  (require 'dap-chrome)
-  (add-hook 'lsp-mode-hook #'lsp-enable-which-key-integration)
-  (yas-global-mode))
+;;(with-eval-after-load 'lsp-mode ;;what does this block do?
+;;  (require 'dap-chrome)
+;;  (add-hook 'lsp-mode-hook #'lsp-enable-which-key-integration)
 
 ;;find-definition like intellij for js files
 (with-eval-after-load 'js
@@ -229,8 +240,9 @@
 
 ;;GOLDEN RATIO - this makes the window wide on focus like I have on vim
 ;;NOTE how to speedup switching???
-(require 'golden-ratio)
-(golden-ratio-mode 1)
+(use-package golden-ratio
+  :config
+  (golden-ratio-mode 1))
 
 
 ;;MARKDOWN - live preview
@@ -249,16 +261,32 @@
 ;;trying to get breakpoint functionality set up
 (use-package indium :hook ((js2-mode . indium-interaction-mode)))
 ;;need this so node is in emacs for indium debug engine
-(require 'exec-path-from-shell)
-(exec-path-from-shell-initialize)
+(use-package exec-path-from-shell
+	:config
+	(exec-path-from-shell-initialize))
 ;;read chrome from cli after flapak alias has been created
 ;; alias chrome="flatpak run org.chromium.Chromium"
 (setq indium-chrome-executable "chromium")
 
 ;;MULTIEDIT evil-multiedit set up
 ;;(evil-multiedit-default-keybinds)
-(require 'evil-mc)
-;;experimental: increase border width so breakpoints can be seen better
+;;NOTE "windows" left Alt key is Meta key
+;;USE - V-mode select word(s) then M-d each time
+
+;;hlissner has evil-multiedit as part of doom....we do not need this next line
+(use-package evil-mc
+	:config
+	(global-evil-mc-mode 1));;enable
+
+;;(evil-mc-make-all-cursors) ;; C-n
+;; Create cursors for all strings that match the selected
+;; region or the symbol under cursor.
+
+;;(evil-mc-undo-all-cursors);; C-p
+;; Remove all cursors.
+;;CYCLE---> M-n / M-p
+
+;;EXPERIMENTAL: increase border width so breakpoints can be seen better
 ;;(setq-default display-line-numbers-width 10)
 ;;(setq scroll-bar-width 10)
 ;; add to config.el
