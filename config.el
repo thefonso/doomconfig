@@ -110,9 +110,9 @@
 (add-to-list 'package-archives '("gnu"   . "https://elpa.gnu.org/packages/"))
 (add-to-list 'package-archives '("melpa" . "https://melpa.org/packages/"))
 
-;; Associate .jsx files with web-mode
-(add-to-list 'auto-mode-alist '("\\.jsx\\'" . web-mode))
-(setq web-mode-content-types-alist '(("jsx" . "\\.js[x]?\\'")))
+;;NOTE CHATGPT answer for EMMET problem Associate .jsx files with web-mode
+;;(add-to-list 'auto-mode-alist '("\\.jsx\\'" . web-mode))
+;;(setq web-mode-content-types-alist '(("jsx" . "\\.js[x]?\\'")))
 
 
 (package-initialize)
@@ -127,9 +127,9 @@
 ;;EMMET
 ;;NOTE https://gist.github.com/thefonso/814a2fc041b1ae30c7618a989cf79abf
 ;;NOTE auto enable for .js/.jsx files
-;;(add-to-list 'auto-mode-alist '("\\.jsx?$" . web-mode)) ;; auto-enable for .js/.jsx files
+(add-to-list 'auto-mode-alist '("\\.jsx\\'" . web-mode)) ;; auto-enable for .js/.jsx files
 ;;NOTE enable JSX syntax higlighting...
-;;(setq web-mode-content-types-alist '(("jsx" . "\\.js[x]?\\'")))
+(setq web-mode-content-types-alist '(("jsx" . "\\.js[x]?\\'")))
 ;;get emmet in React JSX files
 ;;(add-to-list 'emmet-jsx-major-modes 'rjsx-mode)
 ;;next line auto installes emmet
@@ -143,7 +143,11 @@
 (after! rjsx-mode
   (setq auto-mode-alist (rassq-delete-all 'rjsx-mode auto-mode-alist)))
 
-;;(add-to-list 'auto-mode-alist '("\\.jsx\\'" . web-mode))
+;;CODE COMPLETION - put emmet on top NOTE see similar line in TABNINE section
+(after! company
+  (setq company-backends '((company-emmet))))
+
+;;EMMET end
 
 
 ;;TABNINE
@@ -168,6 +172,7 @@
 ;; Number the candidates (use M-1, M-2 etc to select completions).
 ;;(setq company-show-quick-access t)
 ;;TABNINE ENDS
+
 
 ;; grab the .env file reader
 (use-package dotenv-mode)
@@ -303,7 +308,11 @@
 ;;(setq window-divider-default-bottom-width 4  ; default is 1
 ;;window-divider-default-right-width 4)  ; default is 1
 
-;; NOTE for html intellisense: M-x lsp-install-server RET html-ls RET
+;;TREEMACS icons
+(setq doom-themes-treemacs-theme "doom-colors") ; or another theme name
+(setq doom-themes-treemacs-enable-variable-pitch nil) ; optional, if you prefer fixed-pitch
+(doom-themes-treemacs-config)
+
 
 ;;FRINGES set fringes to 10 left 5 right so breakpoints are seen
 ;;(fringe-mode '(10 . 5))
