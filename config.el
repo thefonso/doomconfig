@@ -132,10 +132,14 @@
         use-package-expand-minimally t))
 
 ;;PRETTIER-JS
+;;NOTE:prettier is set for MANUAL via your "customize-group" settings
 ;;NOTE:https://github.com/jscheid/prettier.el
 ;;NOTE:see vue below
-(add-hook 'after-init-hook #'global-prettier-mode)
-
+(add-hook 'after-init-hook #'global-prettier-mode);;prettier is enabled
+;; M-x prettier-prettify current - buffer manually
+;; M-x prettier-prettify-region - selected code region
+;; M-x customize-group prettier - opens configuration setings thingie
+;;
 ;;EMMET
 ;;NOTE https://gist.github.com/thefonso/814a2fc041b1ae30c7618a989cf79abf
 ;;NOTE auto enable for .js/.jsx files
@@ -342,6 +346,9 @@
 
 (global-set-key (kbd "C-c a b c") 'livepreview)
 
+;;save current buffer when spc-o-t for terminal is used
+;;???
+;;
 ;; Maximize screen on startup
 (add-to-list 'initial-frame-alist '(fullscreen . maximized))
 ;;(add-hook 'window-setup-hook #'toggle-frame-maximized)
